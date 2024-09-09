@@ -1,8 +1,5 @@
-all: main
-
-main: main.cpp
-	@echo "Compiling main file"
-	g++ -o build/main main.cpp
+all: 
+	g++ -o build/main src/main.cpp
 
 clean:
 	@echo "Cleaning files"
