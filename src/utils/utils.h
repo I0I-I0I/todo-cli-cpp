@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <string>
 #include <vector>
 #include "../globals/types.h"
 
@@ -14,3 +15,4 @@ void clear_input();
 std::vector<int> get_args(ActionStruct &action);
 
 ActionStruct get_action();
+ActionStruct get_action(std::string str);

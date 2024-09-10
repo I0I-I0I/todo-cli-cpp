@@ -8,5 +8,6 @@ int print_todo(std::vector<TodosStruct> &todos, ActionStruct action) {
 			<< todos[i].title << " : "
 			<< todos[i].state << std::endl;
 	}
+	std::cout << std::endl;
 	return NORMAL;
 }

@@ -22,23 +22,39 @@ int main(int argc, char* argv[]) {
 	};
 
 	std::function<int()> help_inner = help(commands, actions);
+	std::function<int(ActionStruct&)> handle_inner = handle_action(todos, commands, actions);
 
 	if (argc > 1) {
 		std::string data = argv[1];
-	}
+		int sep;
+		do {
+			sep = data.find(';');
+			std::string current = data.substr(0, sep);
+			data = data.substr(sep + 1);
 
-	std::cout << "Welcome to ToDo cli app" << std::endl;
+			ActionStruct action = get_action(current);
+			int flag = handle_inner(action);
 
-	while (true) {
-		ActionStruct action = get_action();
-		int flag = handle_action(todos, commands, actions, action);
+			if (flag == WRONG_COMMAND) {
+				std::cout << "Wrong command!" << std::endl;
+				return WRONG_COMMAND;
+			} else if (flag == HELP) {
+				help_inner();
+			}
+		} while (sep != -1);
+	} else {
+		std::cout << "Welcome to ToDo cli app" << std::endl;
+		while (true) {
+			ActionStruct action = get_action();
+			int flag = handle_inner(action);
 
-		if (flag == QUIT) {
-			break;
-		} else if (flag == HELP) {
-			help_inner();
-		} else if (flag == WRONG_COMMAND) {
-			std::cout << "Wrong command!" << std::endl;
+			if (flag == QUIT) {
+				break;
+			} else if (flag == HELP) {
+				help_inner();
+			} else if (flag == WRONG_COMMAND) {
+				std::cout << "Wrong command!" << std::endl;
+			}
 		}
 	}
 

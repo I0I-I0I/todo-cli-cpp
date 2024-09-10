@@ -13,7 +13,7 @@ std::string get_todo_title() {
 	return todo_title;
 }
 
-int Store::add_todo(std::vector<TodosStruct>& todos, ActionStruct action) {
+int add_todo(std::vector<TodosStruct>& todos, ActionStruct action) {
 	std::string todo_title = action.args != "" ? action.args : get_todo_title();
 	todos.push_back({todo_title, 'n'});
 	return NORMAL;
