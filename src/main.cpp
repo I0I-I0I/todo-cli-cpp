@@ -7,6 +7,7 @@
 #include "commands/commands.h"
 #include "globals/types.h"
 #include "globals/const.h"
+#include "db/db.h"
 
 int main(int argc, char* argv[]) {
 	std::vector<TodosStruct> todos = {};
@@ -23,6 +24,8 @@ int main(int argc, char* argv[]) {
 
 	std::function<int()> help_inner = help(commands, actions);
 	std::function<int(ActionStruct&)> handle_inner = handle_action(todos, commands, actions);
+
+	db_create(DB_NAME);
 
 	if (argc > 1) {
 		std::string data = argv[1];

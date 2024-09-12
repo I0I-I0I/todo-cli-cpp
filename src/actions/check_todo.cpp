@@ -2,19 +2,22 @@
 #include "actions.h"
 #include "../utils/utils.h"
 #include "../globals/const.h"
+#include "../db/db.h"
 
 int check_todo(std::vector<TodosStruct> &todos, ActionStruct action) {
 	std::vector<int> args = get_args(action);
+	std::vector<DBData> data = db_get_all(DB_NAME);
 	for (int& index : args) {
-		todos[index - 1].state = 'c';
+		db_toggle_check(DB_NAME, data, index, true);
 	}
 	return NORMAL;
 }
 
 int uncheck_todo(std::vector<TodosStruct> &todos, ActionStruct action) {
 	std::vector<int> args = get_args(action);
+	std::vector<DBData> data = db_get_all(DB_NAME);
 	for (int& index : args) {
-		todos[index - 1].state = 'n';
+		db_toggle_check(DB_NAME, data, index, false);
 	}
 	return NORMAL;
 }
