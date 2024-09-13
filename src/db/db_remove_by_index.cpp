@@ -3,9 +3,11 @@
 #include <vector>
 #include "db.h"
 #include "../globals/types.h"
+#include "../globals/const.h"
 
 std::string get_query_by_id(std::string id) {
-	std::string query = "delete from todos where id = '" + id + "';";
+	std::string db_table(DB_TABLE);
+	std::string query = "delete from " + db_table + " where id = '" + id + "';";
 	return query;
 }
 

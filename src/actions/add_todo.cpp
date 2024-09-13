@@ -1,6 +1,5 @@
 #include <string>
 #include <iostream>
-#include <vector>
 #include "actions.h"
 #include "../db/db.h"
 #include "../globals/types.h"
@@ -14,8 +13,8 @@ std::string get_todo_title() {
 	return todo_title;
 }
 
-int add_todo(std::vector<TodosStruct>& todos, ActionStruct action) {
+int add_todo(ActionStruct action) {
 	std::string todo_title = action.args != "" ? action.args : get_todo_title();
-	int rc = db_add(DB_NAME, {todo_title, "false"});
+	int rc = db_add(DB_PATH, {todo_title, "false"});
 	return rc;
 }

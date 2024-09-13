@@ -9,13 +9,8 @@ struct ActionStruct {
 	std::string args;
 };
 
-struct TodosStruct {
-	std::string title;
-	char state;
-};
-
 struct ActionsStruct {
-	std::function<int(std::vector<TodosStruct> &, ActionStruct)> func;
+	std::function<int(ActionStruct)> func;
 	std::string key;
 	std::string desc;
 };

@@ -1,10 +1,12 @@
 #include <sqlite3.h>
 #include <string>
 #include "db.h"
+#include "../globals/const.h"
 
 std::string get_query_toggle_check(std::string id, bool flag) {
+	std::string db_table(DB_TABLE);
 	std::string cond = flag ? "true" : "false";
-	std::string query = "update todos set completed=" + cond + " where id='" + id + "';";
+	std::string query = "update " + db_table +  " set completed=" + cond + " where id='" + id + "';";
 	return query;
 }
 

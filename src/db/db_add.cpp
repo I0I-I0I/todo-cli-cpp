@@ -4,7 +4,8 @@
 #include "db.h"
 
 std::string get_query_add(QueryArgs args) {
-	std::string query = "insert into todos (id, title, completed) values (hex(randomblob(16)), ";
+	std::string db_table(DB_TABLE);
+	std::string query = "insert into " + db_table + " (id, title, completed) values (hex(randomblob(16)), ";
 	query += "'" + args.title + "'" + ", ";
 	query += args.completed;
 	query += ");";

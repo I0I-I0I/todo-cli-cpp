@@ -16,3 +16,8 @@ std::vector<int> get_args(ActionStruct &action);
 
 ActionStruct get_action();
 ActionStruct get_action(std::string str);
+
+std::function<int(std::string&)> handle_prompt(
+	std::function<int(ActionStruct&)>& handle_cb,
+	std::function<int()>& help_cb
+);

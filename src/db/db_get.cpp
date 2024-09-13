@@ -5,6 +5,7 @@
 #include <vector>
 #include "db.h"
 #include "../globals/types.h"
+#include "../globals/const.h"
 
 std::string from_char_to_string(const unsigned char* text) {
 	int length = std::strlen(reinterpret_cast<const char*>(text));
@@ -12,8 +13,9 @@ std::string from_char_to_string(const unsigned char* text) {
 	return str;
 }
 
-const char* get_query() {
-	const char* query = "select * from todos;";
+std::string get_query() {
+	std::string db_table(DB_TABLE);
+	std::string query = "select * from " + db_table + " ;";
 	return query;
 }
 
@@ -24,7 +26,7 @@ std::vector<DBData> db_get_all(const char* db_name) {
 	std::vector<DBData> data;
 
 	int rc = sqlite3_open(db_name, &db);
-	rc = sqlite3_prepare_v2(db, get_query(), -1, &stmt, &tail);
+	rc = sqlite3_prepare_v2(db, get_query().c_str(), -1, &stmt, &tail);
 	if (rc != SQLITE_OK) {
 		std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
 	}

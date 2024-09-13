@@ -10,7 +10,6 @@
 #include "db/db.h"
 
 int main(int argc, char* argv[]) {
-	std::vector<TodosStruct> todos = {};
 	std::vector<ActionsStruct> actions = {
 		{ add_todo, "add", "Add todo" },
 		{ remove_todo, "remove", "Remove todo" },
@@ -22,41 +21,24 @@ int main(int argc, char* argv[]) {
 		{ quit, "quit", "Quit" },
 	};
 
-	std::function<int()> help_inner = help(commands, actions);
-	std::function<int(ActionStruct&)> handle_inner = handle_action(todos, commands, actions);
+	std::function<int()> help_cb = help(commands, actions);
+	std::function<int(ActionStruct&)> handle_cb = handle_action(commands, actions);
+	std::function<int(std::string&)> handle_prompt_cd = handle_prompt(handle_cb, help_cb);
 
-	db_create(DB_NAME);
+	db_create(DB_PATH);
 
+	std::string data;
 	if (argc > 1) {
-		std::string data = argv[1];
-		int sep;
-		do {
-			sep = data.find(';');
-			std::string current = data.substr(0, sep);
-			data = data.substr(sep + 1);
-
-			ActionStruct action = get_action(current);
-			int flag = handle_inner(action);
-
-			if (flag == WRONG_COMMAND) {
-				std::cout << "Wrong command!" << std::endl;
-				return WRONG_COMMAND;
-			} else if (flag == HELP) {
-				help_inner();
-			}
-		} while (sep != -1);
+		data = argv[1];
+		handle_prompt_cd(data);
 	} else {
-		std::cout << "Welcome to ToDo cli app" << std::endl;
+		std::cout << "For help (help)" << std::endl;
 		while (true) {
-			ActionStruct action = get_action();
-			int flag = handle_inner(action);
-
-			if (flag == QUIT) {
-				break;
-			} else if (flag == HELP) {
-				help_inner();
-			} else if (flag == WRONG_COMMAND) {
-				std::cout << "Wrong command!" << std::endl;
+			std::cout << "Prompt: ";
+			getline(std::cin, data);
+			trim(data);
+			if (handle_prompt_cd(data) == QUIT) {
+				return 0;
 			}
 		}
 	}

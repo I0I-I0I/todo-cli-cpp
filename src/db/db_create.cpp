@@ -1,6 +1,7 @@
 #include <sqlite3.h>
 #include <iostream>
 #include "db.h"
+#include "../globals/const.h"
 
 int db_create(
 	const char* db_name
@@ -13,7 +14,8 @@ int db_create(
 		return rc;
 	}
 
-	const char* sql = "create table if not exists todos ("
+	std::string db_table(DB_TABLE);
+	std::string sql = "create table if not exists " + db_table + " ("
 		"id int primary key not null, "
 		"title text not null, "
 		"completed bool not null);";

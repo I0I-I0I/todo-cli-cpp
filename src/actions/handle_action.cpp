@@ -6,12 +6,12 @@
 #include "../globals/types.h"
 
 std::function<int(ActionStruct&)> handle_action(
-	std::vector<TodosStruct> &todos,
 	std::vector<CommandsStruct> &commands,
 	std::vector<ActionsStruct> &actions
 ) {
-	return [&todos, &commands, &actions](ActionStruct &action) {
-		std::unordered_map<std::string, std::function<int(std::vector<TodosStruct>&, const ActionStruct&)>> actions_func_list;
+	return [&commands, &actions](ActionStruct &action) {
+		if (action.action == "") return NORMAL;
+		std::unordered_map<std::string, std::function<int(const ActionStruct&)>> actions_func_list;
 		std::unordered_map<std::string, std::function<int()>> commands_func_list;
 		for (ActionsStruct act : actions) {
 			actions_func_list[act.key] = act.func;
@@ -22,7 +22,7 @@ std::function<int(ActionStruct&)> handle_action(
 
 		for (ActionsStruct act : actions) {
 			if (action.action == act.key) {
-				return actions_func_list[act.key](todos, action);
+				return actions_func_list[act.key](action);
 			}
 		}
 
