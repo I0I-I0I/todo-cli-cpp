@@ -20,7 +20,7 @@ all:
 		src/db/db_get.cpp\
 		src/db/db_remove_by_index.cpp\
 		src/db/db_check_todo.cpp\
-		-lsqlite3 -o build/main
+		-lsqlite3 -o build/cli_todo
 
 clean:
 	@echo "Cleaning files"
